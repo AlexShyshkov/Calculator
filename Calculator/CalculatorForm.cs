@@ -5,22 +5,22 @@ namespace Calculator
 {
     public partial class CalculatorForm : Form
     {
-        int value ;
-        string operation = "";
         bool isOperationSignPressed = false;
+        string operation = "";
+        int value;
             
         public CalculatorForm()
         {
             InitializeComponent();
         }
 
-            private void Calculate()
+        private void Calculate()
         {
             preview.Text = "";
             switch (operation)
             {
                 case "+":
-                    calculatorTextBox.Text = (value+ int.Parse(calculatorTextBox.Text)).ToString();
+                    calculatorTextBox.Text = (value + int.Parse(calculatorTextBox.Text)).ToString();
                     break;
                 case "-":
                     calculatorTextBox.Text = (value - int.Parse(calculatorTextBox.Text)).ToString();
@@ -45,14 +45,13 @@ namespace Calculator
 
         private void button_Click(object sender, EventArgs e)
         {
-            if ((calculatorTextBox.Text == "0")||(isOperationSignPressed))
+            if ((calculatorTextBox.Text == "0") || (isOperationSignPressed))
             {
                 calculatorTextBox.Clear();
             }
             isOperationSignPressed = false;
             Button button = (Button)sender;
             calculatorTextBox.Text = calculatorTextBox.Text + button.Text;
-
         }
 
         private void buttonOperation_Click(object sender, EventArgs e)
@@ -72,14 +71,32 @@ namespace Calculator
         
         private void buttonClear_Click(object sender, EventArgs e)
         {
-            if (calculatorTextBox.Text == null)
+            if(calculatorTextBox.Text.Length > 0)
+            {
+                calculatorTextBox.Clear();
+            }
+            else if (calculatorTextBox.Text.Length == 0)
             {
                 preview.Text = "";
             }
-            else if(calculatorTextBox.Text != null)
+        }
+
+        private void calculatorTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (calculatorTextBox.Text.Length > 0)
             {
-                calculatorTextBox.Clear();
-                preview.Text = "";
+                buttonDivide.Enabled = true;
+                buttonMultiply.Enabled = true;
+                buttonPlus.Enabled = true;
+                buttonMinus.Enabled = true;
+            }
+        }
+
+        private void preview_TextChanged(object sender, EventArgs e)
+        {
+            if (preview.Text.Length > 0)
+            {
+                buttonResult.Enabled = true;
             }
         }
     }
