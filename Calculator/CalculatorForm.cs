@@ -7,7 +7,7 @@ namespace Calculator
     {
         private bool isOperationSignPressed = false;
         private string operation = "";
-        private int value = 0;
+        private double value = 0;
             
         public CalculatorForm()
         {
@@ -32,14 +32,18 @@ namespace Calculator
 
         private void ButtonClear_Click(object sender, EventArgs e)
         {
+            Button firstPressedButton = (Button)sender;
+            Button secondPressedButton = (Button)sender;
             if (operation != string.Empty)
             {
+                CalculatorTextBox.Text = CalculatorTextBox.Text + secondPressedButton.Text;
                 CalculatorTextBox.Clear();
                 ButtonResult.Enabled = false;
                 NotActiveOperation();
             }
             else if (operation == string.Empty)
             {
+                CalculatorTextBox.Text = CalculatorTextBox.Text + firstPressedButton.Text;
                 CalculatorTextBox.Clear();
                 ButtonResult.Enabled = false;
                 NotActiveOperation();                
@@ -76,18 +80,6 @@ namespace Calculator
             }
         }
 
-        private void Preview_TextChanged(object sender, EventArgs e)
-        {
-            if (Preview.Text.Length > 0)
-            {
-                ButtonResult.Enabled = true;
-                ButtonDivide.Enabled = false;
-                ButtonMultiply.Enabled = false;
-                ButtonPlus.Enabled = false;
-                ButtonMinus.Enabled = false;                
-            }
-        }
-
         private void ActiveOperation()
         {
             ButtonDivide.Enabled = true;
@@ -119,7 +111,7 @@ namespace Calculator
                     {
                         CalculatorTextBox.Text = (value / int.Parse(CalculatorTextBox.Text)).ToString();
                     }
-                    break;                
+                    break;               
             }
             isOperationSignPressed = false;
             ButtonResult.Enabled = false;

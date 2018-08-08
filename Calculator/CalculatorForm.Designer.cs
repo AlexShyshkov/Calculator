@@ -73,7 +73,6 @@
             this.Preview.Size = new System.Drawing.Size(100, 20);
             this.Preview.TabIndex = 1;
             this.Preview.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Preview.TextChanged += new System.EventHandler(this.Preview_TextChanged);
             // 
             // ButtonSeven
             // 
