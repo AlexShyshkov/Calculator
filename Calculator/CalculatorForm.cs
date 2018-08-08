@@ -20,21 +20,30 @@ namespace Calculator
             {
                 CalculatorTextBox.Clear();
             }
-            isOperationSignPressed = false;
+            ActiveOperation();
             Button button = (Button)sender;
             CalculatorTextBox.Text = CalculatorTextBox.Text + button.Text;
+            if (isOperationSignPressed)
+            {
+                NotActiveOperation();
+                ButtonResult.Enabled = true;
+            }
         }
 
         private void ButtonClear_Click(object sender, EventArgs e)
         {
-            if(CalculatorTextBox.Text.Length > 0)
+            if (operation != string.Empty)
             {
                 CalculatorTextBox.Clear();
+                ButtonResult.Enabled = false;
+                NotActiveOperation();
             }
-            else if (CalculatorTextBox.Text.Length == 0)
+            else if (operation == string.Empty)
             {
-                Preview.Text = "";
-            }         
+                CalculatorTextBox.Clear();
+                ButtonResult.Enabled = false;
+                NotActiveOperation();                
+            }
         }
 
         private void ButtonOperation_Click(object sender, EventArgs e)
@@ -51,7 +60,7 @@ namespace Calculator
         private void ButtonResult_Click(object sender, EventArgs e)
         {
             Calculate();
-            Preview.Text = "";
+            Preview.Text = string.Empty;
             ButtonResult.Enabled = false;
         }
 
@@ -59,17 +68,11 @@ namespace Calculator
         {
             if (CalculatorTextBox.Text.Length != null )
             {
-                ButtonDivide.Enabled = true;
-                ButtonMultiply.Enabled = true;
-                ButtonPlus.Enabled = true;
-                ButtonMinus.Enabled = true;
+                ActiveOperation();
             }
             else
             {
-                ButtonDivide.Enabled = false;
-                ButtonMultiply.Enabled = false;
-                ButtonPlus.Enabled = false;
-                ButtonMinus.Enabled = false;
+                NotActiveOperation();
             }
         }
 
@@ -116,9 +119,7 @@ namespace Calculator
                     {
                         CalculatorTextBox.Text = (value / int.Parse(CalculatorTextBox.Text)).ToString();
                     }
-                    break;
-                default:
-                    break;
+                    break;                
             }
             isOperationSignPressed = false;
             ButtonResult.Enabled = false;
