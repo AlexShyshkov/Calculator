@@ -66,11 +66,12 @@ namespace Calculator
             Calculate();
             Preview.Text = string.Empty;
             ButtonResult.Enabled = false;
+            NotActiveOperation();
         }
 
         private void CalculatorTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (CalculatorTextBox.Text.Length != null )
+            if (CalculatorTextBox.Text.Length > 0)
             {
                 ActiveOperation();
             }
