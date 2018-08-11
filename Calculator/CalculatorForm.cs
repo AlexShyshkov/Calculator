@@ -6,9 +6,10 @@ namespace Calculator
     public partial class CalculatorForm : Form
     {
         private bool isOperationSignPressed = false;
+        private bool isResult = false;
         private string operation = "";
         private double value = 0;
-            
+        
         public CalculatorForm()
         {
             InitializeComponent();
@@ -16,19 +17,17 @@ namespace Calculator
 
         private void Button_Click(object sender, EventArgs e)
         {
-            if ((CalculatorTextBox.Text == "0") || (isOperationSignPressed))
+            if (isResult)
             {
-                CalculatorTextBox.Clear();
+                isResult = false;
+                CalculatorTextBox.Text = String.Empty;
+                EnteringSystem(sender as Button);
             }
-            ActiveOperation();
-            Button button = (Button)sender;
-            CalculatorTextBox.Text = CalculatorTextBox.Text + button.Text;
-            if (isOperationSignPressed)
+            else
             {
-                NotActiveOperation();
-                ButtonResult.Enabled = true;
+                EnteringSystem(sender as Button);
             }
-        }
+        }        
 
         private void ButtonClear_Click(object sender, EventArgs e)
         {
@@ -58,7 +57,7 @@ namespace Calculator
             value = int.Parse(CalculatorTextBox.Text);
             Preview.Text = value + " " + operation;
             NotActiveOperation();
-            isOperationSignPressed = true;
+            isOperationSignPressed = true;            
         }
 
         private void ButtonResult_Click(object sender, EventArgs e)
@@ -67,6 +66,7 @@ namespace Calculator
             Preview.Text = string.Empty;
             ButtonResult.Enabled = false;
             NotActiveOperation();
+            isResult = true;
         }
 
         private void CalculatorTextBox_TextChanged(object sender, EventArgs e)
@@ -109,6 +109,22 @@ namespace Calculator
             }
             isOperationSignPressed = false;
             ButtonResult.Enabled = false;
+        }
+
+        private void EnteringSystem(Button newPressedButton)
+        {
+            if ((CalculatorTextBox.Text == "0") || (isOperationSignPressed))
+            {
+                CalculatorTextBox.Clear();
+            }
+            ActiveOperation();
+            Button button = (Button)newPressedButton;
+            CalculatorTextBox.Text = CalculatorTextBox.Text + button.Text;
+            if (isOperationSignPressed)
+            {
+                NotActiveOperation();
+                ButtonResult.Enabled = true;
+            }
         }
 
         private void NotActiveOperation()
