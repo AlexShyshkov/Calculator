@@ -71,14 +71,7 @@ namespace Calculator
 
         private void CalculatorTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (CalculatorTextBox.Text.Length > 0)
-            {
-                ActiveOperation();
-            }
-            else
-            {
-                NotActiveOperation();
-            }
+            ActiveOperation();
         }
 
         private void ActiveOperation()
